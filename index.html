@@ -1,0 +1,57 @@
+
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChocoFusion Store 🍫</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>ChocoFusion Store 🍫</h1>
+    <nav>
+      <a href="cart.html" class="cart-link">🛒 Кошик (<span id="cart-count">0</span>)</a>
+    </nav>
+  </header>
+  <h1>Смак, що Здивує!</h1>
+  <p><b>Шукаєш ідеальний шоколад? Зупинись тут!</b></p>
+  <p><b>ChocoFusion Store</b> – це місце, де традиції зустрічаються з інноваціями. Ми створюємо унікальні смакові поєднання, які перетворять звичайну перерву на незабутню насолоду.</p>
+  <p><b>Готовий до Fusion?</b><p/>
+  <p><b>Обери свій шоколад прямо зараз!</b></p>
+  <main id="product-list">
+    <div class="product">
+      <img src="https://www.sladkiymir.com.ua/storage/images/%D1%8F%D0%B3%D0%BE%D0%B4%D0%BA%D0%B0-%D0%BA%D0%BB%D1%83%D0%B1%D0%BD%D0%B8%D0%BA%D0%B0.jpg" alt="ChocoFusion Strawberry">
+      <h2>ChocoFusion</h2>
+      <p>Шоколад молочний "SHOUD'E" з полуницею та ожиною</p>
+      <p class="price">75 грн</p>
+      <button onclick="addToCart('ChocoFusion Strawberry', 75)">Додати</button>
+    </div>
+
+    <div class="product">
+      <img src="https://www.sladkiymir.com.ua/storage/images/%D1%8F%D0%B3%D0%BE%D0%B4%D0%BA%D0%B0-%D0%BA%D0%BB%D1%8E%D0%BA%D0%B2%D0%B0.jpg" alt="ChocoFusion Orange">
+      <h2>ChocoFusion</h2>
+      <p>Шоколад білий "SHOUD'E" з журавлиною та чорницею</p>
+      <p class="price">80 грн</p>
+      <button onclick="addToCart('ChocoFusion Orange', 80)">Додати</button>
+    </div>
+
+    <div class="product">
+      <img src="https://www.sladkiymir.com.ua/storage/images/%D1%8F%D0%B3%D0%BE%D0%B4%D0%BA%D0%B0-%D1%86%D1%83%D0%BA%D0%B0%D1%82%D1%8B.jpg" alt="ChocoFusion Nuts">
+      <h2>ChocoFusion</h2>
+      <p>Шоколад чорний "SHOUD'E" з цукатами та малиною</p>
+      <p class="price">85 грн</p>
+      <button onclick="addToCart('ChocoFusion Nuts', 85)">Додати</button>
+    </div>
+
+    <div class="product">
+      <img src="https://www.sladkiymir.com.ua/storage/images/%D1%8F%D0%B3%D0%BE%D0%B4%D0%BA%D0%B0-%D0%B2%D0%B8%D1%88%D0%BD%D1%8F.jpg" alt="ChocoFusion Mint">
+      <h2>ChocoFusion</h2>
+      <p>Шоколад молочний "SHOUD'E" з вишнею та чорницею</p>
+      <p class="price">70 грн</p>
+      <button onclick="addToCart('ChocoFusion Mint', 70)">Додати</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
