@@ -85,3 +85,77 @@ function showOrderTotal() {
 updateCartCount();
 displayCart();
 showOrderTotal();
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Вся ваша існуюча логіка кошика тут...
+
+    const orderForm = document.getElementById('orderForm');
+    const orderConfirmation = document.getElementById('orderConfirmation');
+
+    // Перевіряємо, чи ми на сторінці кошика з формою
+    if (orderForm) {
+        orderForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Заборонити стандартну відправку форми
+
+            const cartItems = getCartItems(); // Припустимо, ця функція існує
+            
+            // 1. Перевірка наявності товарів у кошику
+            if (cartItems.length === 0) {
+                alert('Не можна оформити порожнє замовлення. Додайте товари у кошик.');
+                return;
+            }
+
+            // 2. Збір даних клієнта
+            const customerData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                payment: document.getElementById('payment').value
+            };
+
+            // 3. Формування об'єкта замовлення
+            const orderDetails = {
+                customer: customerData,
+                items: cartItems,
+                // total: calculateTotal(), // Можна додати загальну суму, якщо у вас є функція
+                timestamp: new Date().toISOString()
+            };
+
+            // 4. Симуляція відправки замовлення
+            // ************
+            // В реальному проєкті тут має бути запит (fetch/axios) на ваш бекенд
+            // для збереження замовлення у базі даних.
+            // ************
+            console.log('Дані замовлення для відправки:', orderDetails);
+            
+            // 5. Очищення кошика та відображення підтвердження
+            
+            // Очищення кошика (припустимо, ця функція існує)
+            clearCart(); 
+            // Оновлення відображення (припустимо, ця функція існує)
+            updateCartDisplay(); 
+
+            // Сховати форму і показати повідомлення про успіх
+            orderForm.style.display = 'none';
+            orderConfirmation.style.display = 'block';
+
+            // Опціонально: перенаправити користувача на головну сторінку через 5 секунд
+            // setTimeout(() => {
+            //     window.location.href = 'index.html';
+            // }, 5000);
+        });
+    }
+
+    // ПРИКЛАД: Якщо у вас ще немає цих функцій, вам потрібно їх створити
+    function getCartItems() {
+        // Приклад отримання кошика з localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        return cart;
+    }
+
+    function clearCart() {
+        // Приклад очищення кошика
+        localStorage.removeItem('cart');
+    }
+  
+});
