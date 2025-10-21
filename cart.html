@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ваш кошик 🛒</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Ваш кошик 🛒</h1>
+    <nav>
+      <a href="index.html">⬅ Назад до магазину</a>
+    </nav>
+  </header>
+
+  <section id="cart-section">
+    <ul id="cart-items"></ul>
+    <p id="total">Всього: 0 грн</p>
+    <div class="cart-buttons">
+      <button onclick="clearCart()">Очистити кошик</button>
+      <a href="checkout.html" class="checkout-btn">Оформити замовлення</a>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
