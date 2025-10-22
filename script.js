@@ -1,5 +1,5 @@
 // =========================================================
-// ФУНКЦІЇ ДЛЯ РОБОТИ З КОШИКОМ
+// ФУНКЦІЇ ДЛЯ РОБОТИ З КОШИКОМ (Об'єднано та виправлено)
 // =========================================================
 
 // 1. Отримати товари з localStorage
@@ -23,14 +23,33 @@ function clearCart() {
     localStorage.removeItem('cart');
 }
 
-// 4. Оновити відображення кошика (працює на cart.html та index.html)
+/**
+ * Оновлює лічильник товарів у шапці сайту.
+ */
+function updateCartHeaderCount() {
+    const cart = getCartItems();
+    // Підраховує загальну кількість товарів у кошику
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    // Знаходить посилання на кошик у шапці (посилання має бути <a> з href="cart.html")
+    const cartLink = document.querySelector('a[href="cart.html"]'); 
+
+    if (cartLink) {
+        // Оновлює текст посилання
+        cartLink.textContent = `🛒 Кошик (${totalItems})`;
+    }
+}
+
+
+// 4. Оновити відображення кошика (працює на cart.html)
 function updateCartDisplay() {
     const cartItems = getCartItems();
-    const cartList = document.querySelector('.cart-items');
+    // Використовуємо .cart-items для ul у cart.html
+    const cartList = document.querySelector('.cart-items'); 
     const totalElement = document.getElementById('cart-total');
     const checkoutSection = document.getElementById('checkout-section');
 
-    if (!cartList || !totalElement) return; // Вихід, якщо елементи не знайдені (наприклад, ми на index.html без міні-кошика)
+    if (!cartList || !totalElement) return; // Вихід, якщо елементи не знайдені (наприклад, ми на index.html)
 
     cartList.innerHTML = '';
     let total = 0;
@@ -75,22 +94,27 @@ function updateCartDisplay() {
 function addToCart(productName, productPrice) {
     let cart = getCartItems();
     
+    // Ціна вже має бути числом завдяки parseFloat перед викликом
+    const priceFloat = parseFloat(productPrice); 
+
+    if (isNaN(priceFloat)) {
+        console.error("Недійсна ціна:", productPrice);
+        alert('Помилка: Не вдалося визначити ціну товару.');
+        return;
+    }
+    
     // Перевіряємо, чи товар уже є в кошику
     const existingItem = cart.find(item => item.name === productName);
 
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({ name: productName, price: productPrice, quantity: 1 });
+        cart.push({ name: productName, price: priceFloat, quantity: 1 });
     }
 
     saveCartItems(cart);
-    alert(`${productName} додано до кошика!`);
-    
-    // Якщо ми на cart.html, оновлюємо відображення
-    if (window.location.pathname.includes('cart.html')) {
-        updateCartDisplay();
-    }
+    updateCartHeaderCount(); // Оновлюємо лічильник у шапці
+    alert(`"${productName}" додано до кошика!`);
 }
 
 // =========================================================
@@ -98,6 +122,9 @@ function addToCart(productName, productPrice) {
 // =========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ініціалізація лічильника кошика на всіх сторінках
+    updateCartHeaderCount(); 
     
     // Ініціалізація кошика на сторінці cart.html
     if (window.location.pathname.includes('cart.html')) {
@@ -111,24 +138,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm('Ви впевнені, що хочете очистити кошик?')) {
                 clearCart();
                 updateCartDisplay();
+                updateCartHeaderCount(); // Оновити шапку після очищення
             }
         });
     }
 
-    // Додавання обробників "Додати до кошика" на index.html
-    const productButtons = document.querySelectorAll('.product button');
-    productButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            const productElement = event.target.closest('.product');
-            const name = productElement.querySelector('h3').textContent;
-            // Припускаємо, що ціна вказана в тексті і її потрібно витягнути
-            const priceText = productElement.querySelector('p').textContent.replace('Ціна: ', '').replace(' грн', '').trim();
-            const price = parseFloat(priceText);
+    // ДОДАТКОВЕ ВИПРАВЛЕННЯ: Додавання обробників "Додати до кошика" на index.html
+    const addButtons = document.querySelectorAll('.add-to-cart'); 
 
-            if (!isNaN(price)) {
-                addToCart(name, price);
+    addButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Отримуємо дані про товар з атрибутів data-
+            const productName = button.getAttribute('data-name');
+            const productPrice = button.getAttribute('data-price');
+
+            if (productName && productPrice) {
+                // Передаємо назву і ЦІНУ (як число)
+                addToCart(productName, parseFloat(productPrice)); 
             } else {
-                alert('Помилка: Не вдалося визначити ціну товару.');
+                console.error("Відсутні атрибути data-name або data-price на кнопці.");
             }
         });
     });
@@ -141,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (orderForm) {
         orderForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Заборонити стандартну відправку форми
+            event.preventDefault(); 
 
             const cartItems = getCartItems();
             
@@ -151,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 2. Збір даних клієнта
+            // 2. Збір даних клієнта (залишаємо без змін)
             const customerData = {
                 name: document.getElementById('name').value,
                 phone: document.getElementById('phone').value,
@@ -165,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalOrderAmount += item.price * item.quantity;
             });
 
-            // 3. Формування об'єкта замовлення
+            // 3. Формування об'єкта замовлення (залишаємо без змін)
             const orderDetails = {
                 customer: customerData,
                 items: cartItems,
@@ -173,14 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toLocaleString()
             };
 
-            // 4. СИМУЛЯЦІЯ ВІДПРАВКИ
-            // У реальному проєкті тут відправляється запит на сервер!
+            // 4. СИМУЛЯЦІЯ ВІДПРАВКИ (залишаємо без змін)
             console.log('--- НОВЕ ЗАМОВЛЕННЯ ---');
             console.log(orderDetails);
             
             // 5. Очищення кошика та відображення підтвердження
             clearCart(); 
-            updateCartDisplay(); // Оновлює кошик та приховує форму
+            updateCartDisplay(); 
+            updateCartHeaderCount(); // Оновити шапку
             
             // Сховати форму і показати повідомлення про успіх
             orderForm.style.display = 'none';
