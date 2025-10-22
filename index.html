@@ -1,4 +1,3 @@
-
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
@@ -10,7 +9,7 @@
   <header>
     <h1>ChocoFusion Store 🍫</h1>
     <nav>
-      <a href="cart.html" class="cart-link">🛒 Кошик (<span id="cart-count">0</span>)</a>
+      <a href="cart.html" class="cart-link">🛒 Кошик (0)</a>
     </nav>
   </header>
   <h1>Смак, що Здивує!</h1>
@@ -40,8 +39,8 @@
       <p class="price">80 грн</p>
       <button
         class="add-to-cart"
-        data-name="ChocoFusion Strawberry"
-        data-price="75"
+        data-name="ChocoFusion Orange"
+        data-price="80"
     >
         Додати
     </button>
@@ -52,7 +51,13 @@
       <h2>ChocoFusion</h2>
       <p>Шоколад чорний "SHOUD'E" з цукатами та малиною</p>
       <p class="price">85 грн</p>
-      <button onclick="addToCart('ChocoFusion Nuts', 85)">Додати</button>
+      <button 
+        class="add-to-cart" 
+        data-name="ChocoFusion Nuts"
+        data-price="85"
+      >
+        Додати
+      </button>
     </div>
 
     <div class="product">
@@ -62,14 +67,13 @@
       <p class="price">70 грн</p>
       <button
         class="add-to-cart"
-        data-name="ChocoFusion Strawberry"
-        data-price="75"
+        data-name="ChocoFusion Mint"
+        data-price="70"
     >
         Додати
     </button>
     </div>
   </main>
-<script src="cart.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
